@@ -1,0 +1,5 @@
+$primary-color: #cfddcd;
+@import "~bootstrap/scss/bootstrap";
+body {
+    background: $primary-color;
+}
