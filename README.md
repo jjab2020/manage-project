@@ -14,6 +14,7 @@ Instructions:
    - Insaller nodeJs
    - Installer yarn
    - Taper la commande yarn install
+   - Taper la commande php bin/console doctrine:database:create 
    - Taper la commande php bin/console doctrine:migrations:migrate
    - Taper la commande php bin/console doctrine:fixtures:load
    - Lancer le projet avec cette commande php bin/console server:run
