@@ -8,7 +8,7 @@
 Instructions:
  
    - Installer wamp
-   - La version de php est 7.1
+   - La version de php est 7.1.9 ou plus
    - Installer composer
    - Taper composer install
    - Insaller nodeJs
@@ -21,6 +21,7 @@ Instructions:
    - pour pouvoir tester l'authentification pointer sur l'url: localhost:8000/login
 
 ```
+
 
 ## Auteur
 
