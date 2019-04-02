@@ -29,6 +29,8 @@ class UserFixtures extends Fixture
         $admin->setEmail('jabrane.pro@gmail.com');
         $admin->setRoles(array('ROLE_ADMIN','ROLE_USER'));
         $admin->setPassword($this->encoder->encodePassword($admin,'L@ravel'));
+        $admin->setCreatedAt(new \DateTime());
+        $admin->setUpdatedAt(new \DateTime());
 
         // $product = new Product();
         $manager->persist($admin);

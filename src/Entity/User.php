@@ -42,10 +42,34 @@ class User implements  UserInterface, \serializable
      */
     private $roles = [];
 
-    public function _construct(){
+    /**
+     * @ORM\Column(type="datetime",nullable=true)
+     */
+
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime",nullable=true)
+     */
+
+    private $updatedAt;
+
+    /*public function _construct(){
         $this->isActive = true;
         $this->roles = ['ROLE_USER'];
+    }*/
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $this->isActive = true;
+        $this->roles = ['ROLE_USER'];
+        $this->createdAt = new \DateTime('@'.strtotime('now'));
+        $this->updatedAt = new \DateTime('@'.strtotime('now'));
     }
+
 
     public function getId(): ?int
     {
@@ -158,5 +182,29 @@ class User implements  UserInterface, \serializable
             // voir remarques sur salt plus haut
             // $this->salt
             ) = unserialize($serialized);
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 }

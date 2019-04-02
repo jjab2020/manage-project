@@ -1,32 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Login Page {% endblock %}
+{% block title %} Login page {% endblock %}
 
 {% block body %}
-    <h1 class="text-center">Connexion</h1>
     <form action="{{ path('login') }}" method="post">
-        <div class="grid-container">
-            <div class="grid-x grid-padding-x">
-                <div class="small-12 medium-6 medium-offset-3 large-4 large-offset-4 cell">
-                    {% if error %}
-                        <div class="callout warning">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                    {% endif %}
-
-                    <label for="username">Identifiant
-                        <input type="text" id="username" name="_username" value="{{ last_username }}"/>
-                    </label>
-                </div>
-                <div class="small-12 medium-6 medium-offset-3 large-4 large-offset-4 cell">
-                    <label for="password">Mot de passe:
-                        <input type="password" id="password" name="_password"/>
-                    </label>
-                </div>
-
-                <div class="small-12 medium-6 medium-offset-3 large-4 large-offset-4 cell">
-                    <button type="submit" class="button">Connexion</button>
+        <div class="container mt-4">
+            <div class="jumbotron jumb">
+                <h1 class="text-center">Connexion</h1>
+                <form action="{{ path('login') }}" method="post">
+                    <div class="form-group">
+                        <label for="username">Identifiant</label>
+                        <input type="text" class="form-control" id="username" name="_username"
+                               value="{{ last_username }}"
+                               placeholder="Entrer utilisateur">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" class="form-control" id="password" name="_password"
+                               placeholder="Entrer Mot de passe">
+                    </div>
+                    <input type="hidden" name="_target_path" value="{{ path('project') }}"/>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-arrow-circle-right fa-lg"></i>
+                        Connexion
+                    </button>
+                </form>
+            </div>
+            {% if error %}
+            <div class="container mt-4">
+                <div class="alert alert-danger" role="alert">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
                 </div>
             </div>
         </div>
-    </form>
+        {% endif %}
     </form>
 {% endblock %}
