@@ -13,6 +13,9 @@ require('bootstrap');
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
  const $ = require('jquery');
 
+ require('startbootstrap-sb-admin/js/sb-admin.min');
+ require('select2');
+
 
  $(document).ready(function () {
      console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
