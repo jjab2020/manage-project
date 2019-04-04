@@ -6,9 +6,12 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Faker\Factory;
 
 class UserFixtures extends Fixture
 {
+    private $faker;
+
     private $encoder;
 
     /**
@@ -18,6 +21,7 @@ class UserFixtures extends Fixture
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
         $this->encoder = $encoder;
+        $this->faker = Factory::create();
     }
 
 
@@ -27,13 +31,34 @@ class UserFixtures extends Fixture
         $admin->setUsername('jjabrane');
         $admin->setIsActive(true);
         $admin->setEmail('jabrane.pro@gmail.com');
-        $admin->setRoles(array('ROLE_ADMIN','ROLE_USER'));
+        $admin->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
         $admin->setPassword($this->encoder->encodePassword($admin,'L@ravel'));
         $admin->setCreatedAt(new \DateTime());
         $admin->setUpdatedAt(new \DateTime());
 
-        // $product = new Product();
+
         $manager->persist($admin);
+
+        // Create random 20 fake users
+        for ($i = 1; $i <= 20; $i++) {
+            $user = new User();
+            $firstname = $this->faker->firstName;
+            $lastname = $this->faker->lastName;
+            $user->setUsername($firstname);
+            $user->setEmail($firstname.'.'.$lastname.'@gmail.com');
+            $user->setRoles(['ROLE_USER']);
+            $user->setPassword(
+                $this->encoder->encodePassword(
+                    $user,
+                    'test'
+                )
+            );
+            $user->setCreatedAt(new \DateTime());
+            $user->setUpdatedAt(new \DateTime());
+            $user->setIsActive(true);
+            $manager->persist($user);
+        }
+
 
         $manager->flush();
     }

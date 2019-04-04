@@ -11,12 +11,16 @@ require('../css/app.scss');
 require('bootstrap');
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
- const $ = require('jquery');
+ var $ = require('jquery');
+ window.$ = $;
+ window.jQuery = $;
 
- require('startbootstrap-sb-admin/js/sb-admin.min');
+ require('startbootstrap-sb-admin/js/sb-admin');
  require('select2');
+ require( 'datatables.net-bs4' );
 
 
  $(document).ready(function () {
      console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+     $('#example').DataTable();
  });
