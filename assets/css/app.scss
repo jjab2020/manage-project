@@ -1,12 +1,15 @@
 $primary-color: #fff;
 $jumbotron-bg: #f1f1f1;
 $fa-font-path: '~font-awesome/fonts';
+$mycostum-color:#6666ff;
 
 @import "~font-awesome/scss/font-awesome.scss";
 @import "~@fortawesome/fontawesome-free/css/all.css";
 @import "~bootstrap/scss/bootstrap";
 @import "~startbootstrap-sb-admin/css/sb-admin.css";
 @import "~datatables.net-bs4/css/dataTables.bootstrap4.css";
+@import "~bootstrap-multiselect/dist/css/bootstrap-multiselect.css";
+@import "~jquery-ui/themes/base/all.css";
 
 
 body {
@@ -15,4 +18,11 @@ body {
 .jumb {
 
     background-color: $jumbotron-bg;
+}
+.bg-blue{
+    background-color: $mycostum-color !important;
+}
+
+.sidebar {
+    background-color: $mycostum-color!important;
 }

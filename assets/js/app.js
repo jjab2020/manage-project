@@ -18,6 +18,12 @@ require('bootstrap');
  require('startbootstrap-sb-admin/js/sb-admin');
  require('select2');
  require( 'datatables.net-bs4' );
+ require('jquery.easing');
+ require('bootstrap-multiselect');
+ require('jquery-ui');
+
+ const imagesContext = require.context('../images', true, /\.(png|jpg|jpeg|gif|ico|svg|webp)$/);
+ imagesContext.keys().forEach(imagesContext);
 
 
  $(document).ready(function () {
