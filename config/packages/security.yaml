@@ -17,9 +17,12 @@ security:
             provider: our_db_provider
             user_checker: App\Security\UserChecker
             form_login:
+              csrf_token_generator: security.csrf.token_manager
               login_path: login
               check_path: login
-              #default_target_path: project
+              #success_handler: redirect.after.login
+              default_target_path: login_success
+              always_use_default_target_path: true
 
             # activate different ways to authenticate
 
