@@ -1,0 +1,50 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Users{% endblock %}
+
+{% block body %}
+
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Users</li>
+    </ol>
+
+    <!-- DataTables Example -->
+    <div class="card mb-3">
+        <div class="card-header">
+            <div class="row">
+                <div class="col">
+                    <i class="fas fa-users"></i> Users
+                </div>
+                <div class="col">
+                    <a class="btn btn-primary btn-sm float-right ml-3" href="#">Create new</a>
+                    <a class="btn btn-primary btn-sm float-right ml-3" onclick="document.getElementById('filter-form').submit();" href="javascript:void(0)">Filter</a>
+                    <form id="filter-form" class="float-right" action="" method="GET">
+                        <input class="form-control form-control-sm" type="text" name="email" value="" placeholder="User E-mail"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>E-mail</th>
+                        <th>Roles</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer small text-muted"></div>
+    </div>
+{% endblock %}
