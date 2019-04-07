@@ -8,7 +8,7 @@
 Instructions:
  
    - Installer wamp
-   - La version de php est 7.1.9 ou plus
+   - La version de php est 7.2 ou plus
    - Installer composer
    - Taper composer install
    - Insaller nodeJs
