@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Page Restricted</h1>
+    <div class="jumbotron text-center">
+        <div class="container-fluid mt-6">
+
+            {{ status_code }}
+            {{ status_text }}
+            <!-- Page Content -->
+            <h1 class="display-1">{{ status_code }}</h1>
+            <p class="lead">Page is not Granted for simple user.
+                <a href="{{ path('home') }}">return to the homepage</a>.</p>
+
+        </div>
+    </div></div>
+{% endblock %}
