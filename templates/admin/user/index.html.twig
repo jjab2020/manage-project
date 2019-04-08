@@ -21,9 +21,11 @@
                 </div>
                 <div class="col">
                     <a class="btn btn-primary btn-sm float-right ml-3" href="#">Create new</a>
-                    <a class="btn btn-primary btn-sm float-right ml-3" onclick="document.getElementById('filter-form').submit();" href="javascript:void(0)">Filter</a>
+                    <a class="btn btn-primary btn-sm float-right ml-3"
+                       onclick="document.getElementById('filter-form').submit();" href="javascript:void(0)">Filter</a>
                     <form id="filter-form" class="float-right" action="" method="GET">
-                        <input class="form-control form-control-sm" type="text" name="email" value="" placeholder="User E-mail"/>
+                        <input class="form-control form-control-sm" type="text" name="email" value="{{ emailFilter }}"
+                               placeholder="User E-mail"/>
                     </form>
                 </div>
             </div>
@@ -36,15 +38,25 @@
                         <th>Id</th>
                         <th>E-mail</th>
                         <th>Roles</th>
-                        <th>actions</th>
                     </tr>
                     </thead>
                     <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.roles ? user.roles|join(', ') : '' }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">no records found</td>
+                        </tr>
+                    {% endfor %}
 
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="card-footer small text-muted"></div>
+        <div class="card-footer small text-muted">{{ knp_pagination_render(users) }}</div>
     </div>
 {% endblock %}

@@ -21,6 +21,7 @@ require('bootstrap');
  require('jquery.easing');
  require('bootstrap-multiselect');
  require('jquery-ui');
+ require('layui-src/build/layui');
 
  const imagesContext = require.context('../images', true, /\.(png|jpg|jpeg|gif|ico|svg|webp)$/);
  imagesContext.keys().forEach(imagesContext);
