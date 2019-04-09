@@ -21,9 +21,9 @@ class SecurityController extends AbstractController
      */
 
 
-    public function login(AuthenticationUtils $utils):Response
+    public function login(AuthenticationUtils $utils): Response
     {
-        if(!empty($this->getUser())) {
+        if (!empty($this->getUser())) {
             return $this->redirectToRoute('project');
         }
 
@@ -37,7 +37,8 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', [
             'controller_name' => 'SecurityController',
             'last_username' => $lastUsername,
-            'error'=>$error,
+            'error' => $error,
+            'show' => false
         ]);
     }
 
@@ -52,9 +53,18 @@ class SecurityController extends AbstractController
     {
         if ($security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute("dashboard");
-        }  else {
+        } else {
             return $this->redirectToRoute("home");
         }
     }
 
+    /**
+     * @Route("/logout",name="logout",methods={"GET"})
+     */
+
+
+    public function logout()
+    {
+
+    }
 }

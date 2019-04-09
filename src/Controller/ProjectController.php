@@ -14,7 +14,9 @@ class ProjectController extends AbstractController
     {
         return $this->render('project/index.html.twig', [
             'controller_name' => 'ProjectController',
-            'current_menu' => 'menu'
+            'current_menu' => 'menu',
+            'show'=>true
+
         ]);
     }
 }

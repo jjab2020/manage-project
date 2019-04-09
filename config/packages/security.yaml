@@ -16,6 +16,9 @@ security:
             anonymous: true
             provider: our_db_provider
             user_checker: App\Security\UserChecker
+            logout:
+              path: logout
+              target: login
             form_login:
               csrf_token_generator: security.csrf.token_manager
               login_path: login

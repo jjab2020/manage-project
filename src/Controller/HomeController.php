@@ -15,6 +15,7 @@ class HomeController extends AbstractController
     {
         return $this->render('home/project.html.twig', [
             'controller_name' => 'HomeController',
+            'show'=>true
         ]);
         //return new Response('salut jabrane !!!!!');
     }
