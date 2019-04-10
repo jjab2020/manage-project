@@ -8,8 +8,9 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\User;
+use App\Form\UserType;
 use App\Service\UserService;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,5 +41,31 @@ class UserController extends AbstractController
                 'emailFilter' => $emailFilter
             ]
         );
+    }
+
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @Route("/admin/new",name="new", methods={"GET","POST"})
+     */
+
+
+
+    public function new(Request $request): Response
+    {
+        $errors = [];
+        $user = new User();
+        $form= $this->createForm(UserType::class,$user);
+
+        // Render the twig view
+        return $this->render(
+            'admin/user/new.html.twig', [
+                'user' => $user,
+                'form' => $form->createView(),
+                'errors' => $errors
+            ]
+        );
+
     }
 }

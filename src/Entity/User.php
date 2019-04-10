@@ -10,6 +10,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements  UserInterface, \serializable
 {
+    const ROLES =  [
+        'Admin' => "ROLE_ADMIN",
+        'User' => 'ROLE_USER',
+        'Customer' => 'ROLE_CUSTOMER'
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
