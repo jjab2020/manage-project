@@ -38,4 +38,12 @@ class UserRepository extends ServiceEntityRepository implements  UserLoaderInter
         return $builder->orderBy('u.id', 'ASC')
             ->getQuery();
     }
+    public function saveUser(User $user):User{
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        return $user;
+
+    }
 }

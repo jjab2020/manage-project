@@ -8,10 +8,12 @@
 
 namespace App\Service;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 class UserService
@@ -24,6 +26,7 @@ class UserService
     private $passwordEncoder;
     private $userRepository;
     private $paginator;
+    private $validator;
 
 
     /**
@@ -33,11 +36,13 @@ class UserService
      * @param PaginatorInterface $paginator
      */
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, PaginatorInterface $paginator)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, PaginatorInterface $paginator, ValidatorInterface $validator)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepository = $userRepository;
         $this->paginator = $paginator;
+        $this->validator = $validator;
+
 
     }
 
@@ -57,5 +62,33 @@ class UserService
             // Items per page
             5
         );
+    }
+
+    /**
+     * @param string $username
+     * @param string $email
+     * @param string $password
+     * @param string $roles
+     * @param string $isActive
+     * @return User
+     */
+
+    public function addUser(string $username, string $email, string $password, string $roles, string $isActive): User
+    {
+        $user = new User();
+        $user->setUsername($username);
+        $user->setEmail($email);
+        $user->setIsActive($isActive);
+        $user->setRoles($roles);
+        $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
+
+        $errors = $this->validator->validate($user);
+
+        if (count($errors > 0)) {
+            foreach ($errors as $error) {
+                throw new \InvalidArgumentException($error->getMessage() . " (" . $error->getPropertyPath() . ")");
+            }
+        }
+
     }
 }

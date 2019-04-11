@@ -20,8 +20,8 @@ class RolesType extends AbstractType
         $resolver->setDefaults(
             [
                 'choices'=>User::ROLES,
-                'multiple' => true,
-                'expanded'=>true,
+                'multiple' => true,/*
+                'expanded'=>true,*/
             ]
         );
     }

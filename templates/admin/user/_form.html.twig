@@ -1,8 +1,23 @@
 <div>
     {{ form_start(form) }}
-    {{ form_widget(form) }}
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.username) }}
+        </div>
+        <div class="col" id="block_1">
+            {{ form_row(form.email) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.password) }}
+        </div>
+        <div class="col" id="block_2">
+            {{ form_row(form.roles) }}
+        </div>
+    </div>
     {{ form_end(form) }}
 
-    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
-    <a class="btn btn-info" href="{{ path('userList') }}">Back to list</a>
+    <button class="layui-btn layui-btn mt-5 ">{{ button_label|default('Save') }}</button>
+    <a class="layui-btn layui-btn layui-btn-normal mt-5" href="{{ path('userList') }}">Back to list</a>
 </div>
