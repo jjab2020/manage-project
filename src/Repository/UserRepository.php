@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
@@ -16,9 +17,11 @@ use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements  UserLoaderInterface
 {
-    public function __construct(RegistryInterface $registry)
+    protected $em;
+    public function __construct(RegistryInterface $registry,EntityManagerInterface $em)
     {
         parent::__construct($registry, User::class);
+        $this->em= $em;
     }
      public function LoadUserByUsername($usernameOrEmail){
          return $this->createQueryBuilder('u')
@@ -38,7 +41,8 @@ class UserRepository extends ServiceEntityRepository implements  UserLoaderInter
         return $builder->orderBy('u.id', 'ASC')
             ->getQuery();
     }
-    public function saveUser(User $user):User{
+    public function saveUser(User $user):User
+    {
 
         $this->em->persist($user);
         $this->em->flush();

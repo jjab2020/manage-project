@@ -4,13 +4,19 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(
+ *     fields={"email"},
+ *     message="The {{ value }} is already used."
+ * )
  */
-class User implements  UserInterface, \serializable
+class User implements UserInterface, \serializable
 {
-    const ROLES =  [
+    const ROLES = [
         'Admin' => "ROLE_ADMIN",
         'User' => 'ROLE_USER',
         'Customer' => 'ROLE_CUSTOMER'
@@ -25,16 +31,25 @@ class User implements  UserInterface, \serializable
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\NotNull
      */
     private $username;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,unique=true)
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email."
+     * )
+     * @Assert\NotBlank
+     * @Assert\NotNull
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\NotNull
      */
     private $password;
 
@@ -45,6 +60,8 @@ class User implements  UserInterface, \serializable
 
     /**
      * @ORM\Column(type="array")
+     * @Assert\NotNull
+     * @Assert\NotBlank
      */
     private $roles = [];
 
@@ -60,10 +77,15 @@ class User implements  UserInterface, \serializable
 
     private $updatedAt;
 
-    /*public function _construct(){
+    public function __construct()
+    {
+
         $this->isActive = true;
         $this->roles = ['ROLE_USER'];
-    }*/
+        $this->createdAt = new \DateTime('@' . strtotime('now'));
+        $this->updatedAt = new \DateTime('@' . strtotime('now'));
+    }
+
 
     /**
      * @ORM\PrePersist
@@ -72,8 +94,8 @@ class User implements  UserInterface, \serializable
     {
         $this->isActive = true;
         $this->roles = ['ROLE_USER'];
-        $this->createdAt = new \DateTime('@'.strtotime('now'));
-        $this->updatedAt = new \DateTime('@'.strtotime('now'));
+        $this->createdAt = new \DateTime('@' . strtotime('now'));
+        $this->updatedAt = new \DateTime('@' . strtotime('now'));
     }
 
 
@@ -137,19 +159,18 @@ class User implements  UserInterface, \serializable
 
     public function setRoles(array $roles): self
     {
-        if (!in_array('ROLE_USER', $roles))
-        {
+        if (!in_array('ROLE_USER', $roles)) {
             $roles[] = 'ROLE_USER';
         }
-        foreach ($roles as $role)
-        {
-            if(substr($role, 0, 5) !== 'ROLE_') {
+        foreach ($roles as $role) {
+            if (substr($role, 0, 5) !== 'ROLE_') {
                 throw new InvalidArgumentException("Chaque rôle doit commencer par 'ROLE_'");
             }
         }
         $this->roles = $roles;
         return $this;
     }
+
     public function getSalt()
     {
         // pas besoin de salt puisque nous allons utiliser bcrypt

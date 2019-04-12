@@ -15,6 +15,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 
 class UserController extends AbstractController
 {
@@ -46,17 +48,29 @@ class UserController extends AbstractController
 
     /**
      * @param Request $request
+     * @param UserService $userService
+     * @param ValidatorInterface $validator
      * @return Response
      * @Route("/admin/new",name="new", methods={"GET","POST"})
      */
 
 
-
-    public function new(Request $request): Response
+    public function new(Request $request, UserService $userService, ValidatorInterface $validator): Response
     {
         $errors = [];
         $user = new User();
-        $form= $this->createForm(UserType::class,$user);
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+
+            if ($form->isValid()) {
+                $userService->addUser($form["username"]->getData(), $form["email"]->getData(), $form["password"]->getData(), $form["roles"]->getData(), $form["isActive"]->getData());
+                return $this->redirectToRoute('userList');
+            }
+            $errors = $validator->validate($user);
+        }
 
         // Render the twig view
         return $this->render(

@@ -16,8 +16,15 @@
             {{ form_row(form.roles) }}
         </div>
     </div>
-    {{ form_end(form) }}
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.isActive) }}
+        </div>
 
+    </div>
+    {{ include('validator/form.errors.html.twig') }}
     <button class="layui-btn layui-btn mt-5 ">{{ button_label|default('Save') }}</button>
     <a class="layui-btn layui-btn layui-btn-normal mt-5" href="{{ path('userList') }}">Back to list</a>
+    {{ form_end(form) }}
+
 </div>

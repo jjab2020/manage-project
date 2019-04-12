@@ -24,6 +24,7 @@ require('jquery.easing');
 require('bootstrap-multiselect');
 require('jquery-ui');
 require('layui-src/build/layui');
+require('@dashboardcode/bsmultiselect');
 let select_roles = require('./role_select');
 
 const imagesContext = require.context('../images', true, /\.(png|jpg|jpeg|gif|ico|svg|webp)$/);

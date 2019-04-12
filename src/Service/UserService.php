@@ -13,6 +13,7 @@ use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
@@ -25,7 +26,7 @@ class UserService
 
     private $passwordEncoder;
     private $userRepository;
-    private $paginator;
+    private $page;
     private $validator;
 
 
@@ -33,14 +34,15 @@ class UserService
      * UserService constructor.
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param UserRepository $userRepository
-     * @param PaginatorInterface $paginator
+     * @param PaginatorInterface $page
+     * @param ValidatorInterface $validator
      */
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, PaginatorInterface $paginator, ValidatorInterface $validator)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, PaginatorInterface $page, ValidatorInterface $validator)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepository = $userRepository;
-        $this->paginator = $paginator;
+        $this->page = $page;
         $this->validator = $validator;
 
 
@@ -54,13 +56,13 @@ class UserService
 
     public function getUsersByPage(Int $page = 1, String $emailFilter = ""): SlidingPagination
     {
-        return $this->paginator->paginate(
+        return $this->page->paginate(
         // Doctrine Query, not results
             $this->userRepository->getAllUsersQuery($emailFilter),
             // Define the page parameter
             $page,
             // Items per page
-            5
+            15
         );
     }
 
@@ -68,27 +70,42 @@ class UserService
      * @param string $username
      * @param string $email
      * @param string $password
-     * @param string $roles
-     * @param string $isActive
+     * @param array $roles
+     * @param bool $active
      * @return User
      */
 
-    public function addUser(string $username, string $email, string $password, string $roles, string $isActive): User
+    public function addUser(string $username, string $email, string $password, array $roles, bool $active): User
     {
+        $errors = null;
+        $result = null;
+
         $user = new User();
         $user->setUsername($username);
         $user->setEmail($email);
-        $user->setIsActive($isActive);
         $user->setRoles($roles);
         $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
+        $user->setIsActive($active);
 
-        $errors = $this->validator->validate($user);
+        $this->userRepository->saveUser($user);
+        return $user;
 
-        if (count($errors > 0)) {
-            foreach ($errors as $error) {
-                throw new \InvalidArgumentException($error->getMessage() . " (" . $error->getPropertyPath() . ")");
-            }
-        }
-
+        /*$errors = $this->validator->validate($user);
+        $result = $this->getErrorsFromValidator($errors);*/
     }
+
+    /**
+     * @param ConstraintViolationListInterface $errors
+     * @return array
+     */
+
+    private function getErrorsFromValidator(ConstraintViolationListInterface $errors)
+    {
+        $formattedErrors = [];
+        foreach ($errors as $error) {
+            $formattedErrors[$error->getPropertyPath()] = $error->getMessage();
+        }
+        return $formattedErrors;
+    }
+
 }

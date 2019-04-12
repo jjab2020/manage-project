@@ -13,6 +13,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@dashboardcode/bsmultiselect": "^0.2.22",
         "babel-polyfill": "^6.26.0",
         "bootstrap": "^4.3.1",
         "bootstrap-multiselect": "^0.9.13-1",
