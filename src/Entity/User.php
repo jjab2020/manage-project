@@ -77,6 +77,12 @@ class User implements UserInterface, \serializable
 
     private $updatedAt;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\UserDetails", inversedBy="user", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="userDetails",referencedColumnName="id",nullable=true)
+     */
+    private $userdetails;
+
     public function __construct()
     {
 
@@ -231,6 +237,18 @@ class User implements UserInterface, \serializable
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getUserdetails(): ?UserDetails
+    {
+        return $this->userdetails;
+    }
+
+    public function setUserdetails(?UserDetails $userdetails): self
+    {
+        $this->userdetails = $userdetails;
 
         return $this;
     }

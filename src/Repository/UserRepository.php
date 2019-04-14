@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Entity\UserDetails;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
@@ -49,5 +50,16 @@ class UserRepository extends ServiceEntityRepository implements  UserLoaderInter
 
         return $user;
 
+    }
+    public function getAllUsersWithDetails($id): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.id = :id_user')
+            ->innerJoin('u.userdetails','details')
+            ->setParameter('id_user',$id)
+            ->select('details.city')
+            ->getQuery()
+            ->execute()
+            ;
     }
 }

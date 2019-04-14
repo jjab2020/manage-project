@@ -62,7 +62,7 @@ class UserService
             // Define the page parameter
             $page,
             // Items per page
-            15
+            8
         );
     }
 

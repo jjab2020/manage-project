@@ -10,6 +10,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\UserRepository;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,10 +30,15 @@ class UserController extends AbstractController
      * @Route("/admin/userList",name="userList")
      */
 
-    public function index(Request $request, UserService $userService): Response
+    public function index(Request $request, UserService $userService,UserRepository $repository): Response
     {
         $page = (int)$request->query->getInt('page', 1);
         $emailFilter = $request->query->get('email', "");
+
+        dump("the city is: ".$repository->getAllUsersWithDetails(31)[0]['city']);
+        $result = $repository->find(31)->getUserdetails()->getStreet();
+        dump("the street is ".$result);
+
 
         // Get users by page number
         $users = $userService->getUsersByPage($page, $emailFilter);
