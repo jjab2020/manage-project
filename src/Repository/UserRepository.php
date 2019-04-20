@@ -42,9 +42,10 @@ class UserRepository extends ServiceEntityRepository implements  UserLoaderInter
         return $builder->orderBy('u.id', 'ASC')
             ->getQuery();
     }
-    public function saveUser(User $user):User
+    public function saveUser(User $user,UserDetails $userDetails):User
     {
 
+        $this->em->persist($userDetails);
         $this->em->persist($user);
         $this->em->flush();
 
@@ -57,7 +58,7 @@ class UserRepository extends ServiceEntityRepository implements  UserLoaderInter
             ->andWhere('u.id = :id_user')
             ->innerJoin('u.userdetails','details')
             ->setParameter('id_user',$id)
-            ->select('details.city')
+            ->select('details.street')
             ->getQuery()
             ->execute()
             ;

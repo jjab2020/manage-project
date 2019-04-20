@@ -9,6 +9,7 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Entity\UserDetails;
 use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
@@ -72,10 +73,15 @@ class UserService
      * @param string $password
      * @param array $roles
      * @param bool $active
+     * @param $filename
+     * @param $street
+     * @param $city
+     * @param $country
      * @return User
      */
 
-    public function addUser(string $username, string $email, string $password, array $roles, bool $active): User
+
+    public function addUser(string $username, string $email, string $password, array $roles, bool $active,$filename,$street,$city,$country): User
     {
         $errors = null;
         $result = null;
@@ -87,7 +93,15 @@ class UserService
         $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
         $user->setIsActive($active);
 
-        $this->userRepository->saveUser($user);
+        $userDetails = new UserDetails();
+        $userDetails->setCity($city);
+        $userDetails->setImage($filename);
+        $userDetails->setStreet($street);
+        $userDetails->setCountry($country);
+        $user->setUserdetails($userDetails);
+        $userDetails->setUser($user);
+
+        $this->userRepository->saveUser($user,$userDetails);
         return $user;
 
         /*$errors = $this->validator->validate($user);

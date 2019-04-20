@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -83,6 +85,11 @@ class User implements UserInterface, \serializable
      */
     private $userdetails;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\UserGroup", inversedBy="allUsers")
+     */
+    private $groupUser;
+
     public function __construct()
     {
 
@@ -90,6 +97,7 @@ class User implements UserInterface, \serializable
         $this->roles = ['ROLE_USER'];
         $this->createdAt = new \DateTime('@' . strtotime('now'));
         $this->updatedAt = new \DateTime('@' . strtotime('now'));
+        $this->groupUser = new ArrayCollection();
     }
 
 
@@ -249,6 +257,32 @@ class User implements UserInterface, \serializable
     public function setUserdetails(?UserDetails $userdetails): self
     {
         $this->userdetails = $userdetails;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserGroup[]
+     */
+    public function getGroupUser(): Collection
+    {
+        return $this->groupUser;
+    }
+
+    public function addGroupUser(UserGroup $groupUser): self
+    {
+        if (!$this->groupUser->contains($groupUser)) {
+            $this->groupUser[] = $groupUser;
+        }
+
+        return $this;
+    }
+
+    public function removeGroupUser(UserGroup $groupUser): self
+    {
+        if ($this->groupUser->contains($groupUser)) {
+            $this->groupUser->removeElement($groupUser);
+        }
 
         return $this;
     }

@@ -32,7 +32,9 @@ class UserType extends AbstractType
             ->add('isActive')
             ->add('roles', RolesType::class, [
                 'placeholder' => 'Choose a role option',
-            ]);
+            ])
+            ->add('UserDetails',UserDetailsType::class)
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
