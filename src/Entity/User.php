@@ -85,10 +85,11 @@ class User implements UserInterface, \serializable
      */
     private $userdetails;
 
+
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\UserGroup", inversedBy="allUsers")
+     * @ORM\OneToMany(targetEntity="App\Entity\UserTeam", mappedBy="user")
      */
-    private $groupUser;
+    private $userTeams;
 
     public function __construct()
     {
@@ -97,7 +98,7 @@ class User implements UserInterface, \serializable
         $this->roles = ['ROLE_USER'];
         $this->createdAt = new \DateTime('@' . strtotime('now'));
         $this->updatedAt = new \DateTime('@' . strtotime('now'));
-        $this->groupUser = new ArrayCollection();
+        $this->userTeams = new ArrayCollection();
     }
 
 
@@ -262,26 +263,31 @@ class User implements UserInterface, \serializable
     }
 
     /**
-     * @return Collection|UserGroup[]
+     * @return Collection|UserTeam[]
      */
-    public function getGroupUser(): Collection
+    public function getUserTeams(): Collection
     {
-        return $this->groupUser;
+        return $this->userTeams;
     }
 
-    public function addGroupUser(UserGroup $groupUser): self
+    public function addUserTeam(UserTeam $userTeam): self
     {
-        if (!$this->groupUser->contains($groupUser)) {
-            $this->groupUser[] = $groupUser;
+        if (!$this->userTeams->contains($userTeam)) {
+            $this->userTeams[] = $userTeam;
+            $userTeam->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeGroupUser(UserGroup $groupUser): self
+    public function removeUserTeam(UserTeam $userTeam): self
     {
-        if ($this->groupUser->contains($groupUser)) {
-            $this->groupUser->removeElement($groupUser);
+        if ($this->userTeams->contains($userTeam)) {
+            $this->userTeams->removeElement($userTeam);
+            // set the owning side to null (unless already changed)
+            if ($userTeam->getUser() === $this) {
+                $userTeam->setUser(null);
+            }
         }
 
         return $this;
