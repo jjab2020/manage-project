@@ -1,0 +1,58 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Team Administration{% endblock %}
+
+{% block body %}
+
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Teams</li>
+    </ol>
+
+    <!-- DataTables Example -->
+    <div class="card mb-3">
+        <div class="card-header">
+            <div class="row">
+                <div class="col">
+                    <i class="fas fa-users"></i> Teams
+                </div>
+                <div class="col">
+                    <a class="layui-btn layui-btn-normal float-right ml-3" href={{ path('newTeam') }}><i class="layui-icon">&#xe654;</i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user_team in teams %}
+                        <tr>
+                            <td>{{ user_team.id }}</td>
+                            <td>{{ user_team.name }}</td>
+
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="card-footer small text-muted">{{ knp_pagination_render(teams) }}</div>
+    </div>
+
+{% endblock %}

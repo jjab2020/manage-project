@@ -38,8 +38,8 @@ class UserController extends AbstractController
         $page = (int)$request->query->getInt('page', 1);
         $emailFilter = $request->query->get('email', "");
 
-        dump("the street is: " . $repository->getAllUsersWithDetails(52)[0]['street']);
-        $result = $repository->find(52)->getUserdetails()->getImage();
+        dump("the street is: " . $repository->getAllUsersWithDetails(54)[0]['street']);
+        $result = $repository->find(54)->getUserdetails()->getImage();
         dump("the upload Image is: " . $result);
 
 
