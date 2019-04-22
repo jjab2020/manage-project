@@ -39,6 +39,7 @@
                         <th>Id</th>
                         <th>E-mail</th>
                         <th>Roles</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -47,6 +48,9 @@
                             <td>{{ user.id }}</td>
                             <td>{{ user.email }}</td>
                             <td>{{ user.roles ? user.roles|join(', ') : '' }}</td>
+                            <td>
+                                <a class="layui-btn layui-btn-normal float-right " href="{{ path('addToTeam', {'id': user.id}) }}"><i class="layui-icon">&#xe770;</i></a>
+                            </td>
                         </tr>
                     {% else %}
                         <tr>

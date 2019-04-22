@@ -1,0 +1,16 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Add user To group{% endblock %}
+
+{% block body %}
+    <h1>Add user {{ user_index }} to Choosen group:</h1>
+
+    <select class="custom-select">
+        <option value="" >Veuillez Choisir</option>
+    {% for v in teams %}
+        <option value="{{ v.id }}" >{{ v.name }}</option>
+    {% endfor %}
+    </select>
+    <button class="layui-btn layui-btn layui-btn-normal mt-2">{{ button_label|default('Save') }}</button>
+
+
+{% endblock %}
