@@ -1,6 +1,7 @@
 <div>
     {{ form_start(form) }}
     {{form_widget(form)}}
+    {{ include('validator/form.errors.html.twig') }}
     <button class="layui-btn layui-btn mt-2 ">{{ button_label|default('Save') }}</button>
     <a class="layui-btn layui-btn layui-btn-normal mt-2" href= "{{ path('userTeam')}}">Back to list</a>
     {{ form_end(form) }}

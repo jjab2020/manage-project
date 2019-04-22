@@ -40,10 +40,10 @@ class TeamService
 
     }
 
-    public function addTeam(Request $request)
+    public function addTeam(string $name)
     {
         $team = new Team();
-        $team->setName($request->get('name'));
+        $team->setName($name);
         $errors = $this->validator->validate($team);
         if ($errors->count()) {
             return $errors;
